@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma';
 import SearchForm from './_components/search-form';
 import VocabularyItem from './_components/vocabulary-item';
+import BackVocabularyFeatureButton from '../_components/back-vocabulary-features-button';
 
 export async function generateMetadata({
   searchParams,
@@ -49,6 +50,7 @@ export default async function VocabularyDictionaryPage({
 
   return (
     <section>
+      <BackVocabularyFeatureButton />
       <h2>Vocabulary Dictionary</h2>
       <SearchForm initialKeyword={keyword} />
 
