@@ -125,5 +125,6 @@ h2 {
   font-size: 1.25rem;
   text-transform: capitalize;
   color: var(--color-sky-600);
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
 }

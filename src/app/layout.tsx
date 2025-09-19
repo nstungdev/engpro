@@ -34,7 +34,7 @@ export default function RootLayout({
         <header className="bg-sky-600 text-white p-4">
           <h1 className="text-2xl font-bold">Engpro</h1>
         </header>
-        <main className="p-4">{children}</main>
+        <main className="p-4 md:mx-8 md:my-5">{children}</main>
       </body>
     </html>
   );
