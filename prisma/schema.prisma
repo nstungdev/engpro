@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Grammar {
+  id          Int     @id @default(autoincrement()) @map("Id")
+  name        String  @db.VarChar(100) @map("Name")
+  description String  @db.VarChar(255) @map("Description")
+  meaning     String  @db.VarChar(255) @map("Meaning")
+  note        String? @db.VarChar(500) @map("Note")
+  usage       String? @db.VarChar(500) @map("Usage")
+  example     String? @db.VarChar(500) @map("Example")
+
+  @@index([name], map: "IX_Grammar_Name")
+}
+
+model LeitnerBox {
+  id                     Int                      @id @default(autoincrement()) @map("Id")
+  boxNumber              Int                      @unique(map: "IX_LeitnerBox_BoxNumber") @map("BoxNumber")
+  interval               Int                      @map("Interval")
+  vocabularyLeitnerLearn VocabularyLeitnerLearn[]
+}
+
+model TemporaryVocabularyLearning {
+  id        Int      @id @default(autoincrement()) @map("Id")
+  jsonData  String   @db.LongText @map("JsonData")
+  createdAt DateTime @default(dbgenerated("'0001-01-01 00:00:00.000000'")) @db.DateTime(6) @map("CreatedAt")
+}
+
+model Vocabulary {
+  id                Int                 @id @default(autoincrement()) @map("Id")
+  word              String              @unique(map: "IX_Vocabulary_Word") @db.VarChar(150) @map("Word")
+  vocabularyMeaning VocabularyMeaning[]
+}
+
+model VocabularyLeitnerLearn {
+  id           Int        @id @default(autoincrement()) @map("Id")
+  vocabularyId Int        @map("VocabularyId")
+  leitnerBoxId Int        @map("LeitnerBoxId")
+  lastReviewed DateTime   @db.DateTime(6) @map("LastReviewed")
+  nextReview   DateTime   @db.DateTime(6) @map("NextReview")
+  leitnerBox   LeitnerBox @relation(fields: [leitnerBoxId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_VocabularyLeitnerLearn_LeitnerBox_LeitnerBoxId")
+
+  @@index([leitnerBoxId], map: "IX_VocabularyLeitnerLearn_LeitnerBoxId")
+}
+
+model VocabularyMeaning {
+  id                Int        @id @default(autoincrement()) @map("Id")
+  vocabularyId      Int        @map("VocabularyId")
+  partOfSpeech      String     @db.VarChar(30) @map("PartOfSpeech")
+  meaning           String     @db.VarChar(255) @map("Meaning")
+  ipa               String?    @db.VarChar(255) @map("Ipa")
+  pronunciation     String?    @db.VarChar(255) @map("Pronunciation")
+  example           String?    @db.VarChar(255) @map("Example")
+  note              String?    @db.VarChar(255) @map("Note")
+  usage             String?    @db.VarChar(500) @map("Usage")
+  englishDefinition String?    @db.VarChar(500) @map("EnglishDefinition")
+  vocabulary        Vocabulary @relation(fields: [vocabularyId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_VocabularyMeaning_Vocabulary_VocabularyId")
+
+  @@index([vocabularyId], map: "IX_VocabularyMeaning_VocabularyId")
+}
+
+model EFMigrationsHistory {
+  migrationId    String @id @db.VarChar(150) @map("MigrationId")
+  productVersion String @db.VarChar(32) @map("ProductVersion")
+
+  @@map("__EFMigrationsHistory")
+}
