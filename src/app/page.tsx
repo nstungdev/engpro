@@ -1,11 +1,17 @@
-import { Button } from '@components/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from '@components/components/ui/card';
+} from '@/components/ui/card';
 import Link from 'next/link';
+
+export const metadata = {
+  title: 'Home',
+  description:
+    'Welcome to Engpro - Your comprehensive English learning platform with vocabulary, grammar, and practice tools',
+};
 
 export default function Home() {
   const items = [
@@ -13,7 +19,7 @@ export default function Home() {
       title: 'Vocabulary dictionary',
       description:
         'Look up new words, learn their meanings, and see example sentences to understand how to use them correctly.',
-      link: '#',
+      link: '/vocabulary/dictionary',
     },
   ];
 

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@components/generated/prisma';
+import { PrismaClient } from '@/generated/prisma';
 
 /**
  * Creates a singleton instance of PrismaClient with environment-specific logging
